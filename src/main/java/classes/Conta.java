@@ -32,7 +32,7 @@ public class Conta {
 	}
 
 	public void sacar(double valor) {
-		if (valor > -1) {
+		if (valor > -1 && saldo > valor) {
 			saldo -= valor;
 			movimentacoes.add(new Movimentacao(dataAtual, tipo.DEBITTO, valor));
 		}
@@ -40,7 +40,7 @@ public class Conta {
 	}
 
 	public void transferir(double valor, Conta contaDestino) {
-		if (valor > -1) {
+		if (valor > -1 && saldo > valor) {
 			sacar(valor);
 			contaDestino.depositar(valor);
 		}
