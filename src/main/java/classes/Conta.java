@@ -50,6 +50,10 @@ public class Conta {
 		return cliente;
 	}
 
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
 	public double getSaldo() {
 		return saldo;
 	}
