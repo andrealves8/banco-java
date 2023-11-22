@@ -44,7 +44,7 @@ Se exceder o limite negar a transação
 
 ###Classe GeradorDeContas
 **Ponto de melhoria:**
-✓
+
 ( ) Essa é um exemplo de classe utilitária: Pesquise como adaptar esse padrão a essa classe e execute as mudanças, é bem simples.
 
 ###Classe Movimentacao

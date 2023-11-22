@@ -12,7 +12,6 @@ public class Conta {
 	private Cliente cliente;
 	private Tipo tipo;
 	private ModalidadeCliente modalidadeCliente;
-	private int contadorTransacoes = 0;
 
 	LocalDateTime data = LocalDateTime.now();
 	DateTimeFormatter dataFormatada = DateTimeFormatter.ofPattern("dd/MM  HH:mm ");
@@ -28,7 +27,6 @@ public class Conta {
 		if (valor > -1) {
 			saldo += valor;
 			movimentacoes.add(new Movimentacao(dataAtual, tipo.CREDITO, valor));
-			contadorTransacoes++;
 		}
 
 	}
@@ -38,6 +36,7 @@ public class Conta {
 			saldo -= valor;
 			movimentacoes.add(new Movimentacao(dataAtual, tipo.DEBITTO, valor));
 		}
+
 	}
 
 	public void transferir(double valor, Conta contaDestino) {
@@ -62,14 +61,6 @@ public class Conta {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	
-	public int getContadorTransacoes() {
-		return contadorTransacoes;
-	}
-	
-	public void setContadorTransacoes(int contadorTransacoes) {
-		this.contadorTransacoes = contadorTransacoes;
-	}
 
 	public ModalidadeCliente getModalidadeCliente() {
 		if (cliente.getRendaMensal() <= 5000) {
@@ -81,9 +72,7 @@ public class Conta {
 		if (cliente.getRendaMensal() > 12000) {
 			return modalidadeCliente.PREMIUM;
 		}
-
 		return null;
-
 	}
 
 	public void setModalidadeCliente(ModalidadeCliente modalidadeCliente) {
@@ -105,7 +94,6 @@ public class Conta {
 		}
 
 		System.out.println(String.format("%nSALDO DISPONÍVEL: R$%.2f%n", this.saldo));
-		System.out.println(String.format("TRANSAÇÕES DIÁRIAS: %s", this.contadorTransacoes));
 
 	}
 
