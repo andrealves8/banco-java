@@ -51,7 +51,7 @@ Se exceder o limite negar a transação
 ( ) Em algum momento um sistema bancário vai precisar se adequar a quem sabe datas de movimentação diferente do momento atual. Antes de fazermos isso, que tal **mudar o nome do atributo "dataAtual" para "data".** E vamos talvez precisar **manipular datas, é melhor que não seja String.**
 
 #####Pontos importantes para vc "profissionalizar" seu projeto
-( ) Repositório com **gitignore** para evitar subir arquivos de IDEs
+(✓) Repositório com **gitignore** para evitar subir arquivos de IDEs
 
 ( ) Precisamos escrever **testes unitários,** conseguiu fazer algum ?
 

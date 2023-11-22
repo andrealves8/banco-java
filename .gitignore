@@ -1,4 +1,4 @@
-/ * target / /
+*target*
 
 # Eclipse
 .classpath
@@ -6,4 +6,3 @@
 .settings/
 
 
-/target/
