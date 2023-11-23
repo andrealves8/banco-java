@@ -33,14 +33,14 @@ Se ele tiver acima de 12.000 é PREMIUM
 
 (✓) Os métodos de transações não podem receber valores negativos. Como vc trataria esse cenário, pode implementar pra gente ?
 
-( ) Hoje uma conta faz quantas transações quiser. A partir de agora, contas de clientes tem limites de transação com base em sua modalidade
+Hoje uma conta faz quantas transações quiser. A partir de agora, contas de clientes tem limites de transação com base em sua modalidade
 
-( ) Se **BASICO** pode fazer até 4 saques e transferências ao dia (ou seja, 4 saques + 4 transferências): 
+(✓) Se **BASICO** pode fazer até 4 saques e transferências ao dia (ou seja, 4 saques + 4 transferências): 
 Se exceder o limite negar a transação
 
-( ) Se **INTERMEDIARIO** pode fazer até 8 saques ou transferências ao dia (ou seja, 8 saques + 8 transferências): Se exceder o limite cobrar 0,05% da transação
+(✓) Se **INTERMEDIARIO** pode fazer até 8 saques ou transferências ao dia (ou seja, 8 saques + 8 transferências): Se exceder o limite cobrar 0,05% da transação
 
-( ) Se **PREMIUM** pode fazer até quantas transações quiser.
+(✓) Se **PREMIUM** pode fazer até quantas transações quiser.
 
 ###Classe GeradorDeContas
 **Ponto de melhoria:**
@@ -48,11 +48,11 @@ Se exceder o limite negar a transação
 ( ) Essa é um exemplo de classe utilitária: Pesquise como adaptar esse padrão a essa classe e execute as mudanças, é bem simples.
 
 ###Classe Movimentacao
-( ) Em algum momento um sistema bancário vai precisar se adequar a quem sabe datas de movimentação diferente do momento atual. Antes de fazermos isso, que tal **mudar o nome do atributo "dataAtual" para "data".** E vamos talvez precisar **manipular datas, é melhor que não seja String.**
+(✓) Em algum momento um sistema bancário vai precisar se adequar a quem sabe datas de movimentação diferente do momento atual. Antes de fazermos isso, que tal **mudar o nome do atributo "dataAtual" para "data".** E vamos talvez precisar **manipular datas, é melhor que não seja String.**
 
 #####Pontos importantes para vc "profissionalizar" seu projeto
 (✓) Repositório com **gitignore** para evitar subir arquivos de IDEs
 
-( ) Precisamos escrever **testes unitários,** conseguiu fazer algum ?
+(✓) Precisamos escrever **testes unitários,** conseguiu fazer algum ?
 
 ( ) Se der tempo, pesquise sobre como deveríamos configurar o ``pom.xml`` em relação aos campos ``groupId, artifactId e name``

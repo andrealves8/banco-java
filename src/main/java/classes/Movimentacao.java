@@ -1,18 +1,20 @@
 package classes;
 
+import java.time.LocalDate;
+
 public class Movimentacao {
-	private String dataAtual;
+	private LocalDate data;
 	private Tipo tipo;
 	private double valor;
 
-	public Movimentacao(String dataAtual, Tipo tipo, double valor) {
-		this.dataAtual = dataAtual;
+	public Movimentacao(LocalDate data, Tipo tipo, double valor) {
+		this.data = data;
 		this.tipo = tipo;
 		this.valor = valor;
 	}
 
-	public String getDataAtual() {
-		return dataAtual;
+	public LocalDate getData() {
+		return data;
 	}
 
 	public Tipo getTipo() {

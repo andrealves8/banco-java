@@ -1,6 +1,6 @@
 package classes;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,13 @@ public class Conta {
 	private double saldo;
 	private Cliente cliente;
 	private Tipo tipo;
-	private ModalidadeCliente modalidadeCliente;
+	private int qtdSaque = 0;
+	private int qtdTransferencia = 0;
+	private List<String> logs = new ArrayList<>();
 
-	LocalDateTime data = LocalDateTime.now();
-	DateTimeFormatter dataFormatada = DateTimeFormatter.ofPattern("dd/MM  HH:mm ");
-	String dataAtual = data.format(dataFormatada);
+	LocalDate localDate = LocalDate.now();
+	DateTimeFormatter dataFormatada = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	String data = localDate.format(dataFormatada);
 
 	private List<Movimentacao> movimentacoes = new ArrayList<>();
 
@@ -26,24 +28,66 @@ public class Conta {
 	public void depositar(double valor) {
 		if (valor > -1) {
 			saldo += valor;
-			movimentacoes.add(new Movimentacao(dataAtual, tipo.CREDITO, valor));
+			movimentacoes.add(new Movimentacao(LocalDate.now(), Tipo.CREDITO, valor));
 		}
 
 	}
 
 	public void sacar(double valor) {
-		if (valor > -1 && saldo > valor) {
-			saldo -= valor;
-			movimentacoes.add(new Movimentacao(dataAtual, tipo.DEBITTO, valor));
+		cliente.validarLimiteMaxMovimentacao();
+
+		if (qtdSaque < cliente.getLimiteMaxSaque()) {
+
+			if (valor >= 10) {
+
+				if (saldo > valor) {
+					saldo -= valor;
+					movimentacoes.add(new Movimentacao(LocalDate.now(), Tipo.DEBITTO, valor));
+					qtdSaque++;
+					logs.add("Saque " + (qtdSaque) + " realizado com sucesso!");
+
+				} else {
+					logs.add("Saldo insuficiente!");
+				}
+
+			} else {
+				logs.add("Valor menor que o permitidio!");
+			}
+
+		} else {
+			logs.add("Limite de saque excedido!");
 		}
 
 	}
 
 	public void transferir(double valor, Conta contaDestino) {
-		if (valor > -1 && saldo > valor) {
-			sacar(valor);
-			contaDestino.depositar(valor);
+		cliente.validarLimiteMaxMovimentacao();
+
+		if (qtdTransferencia < cliente.getLimiteMaxTransferencia()) {
+
+			if (valor >= 10) {
+
+				if (saldo > valor) {
+					sacarDepositar(valor);
+					contaDestino.depositar(valor);
+					qtdTransferencia++;
+					logs.add("Transferência " + (qtdTransferencia) + " realizada com sucesso!");
+
+				} else {
+					logs.add("Saldo insuficiente!");
+				}
+
+			} else {
+				logs.add("Valor menor que o permitidio!");
+			}
+		} else {
+			logs.add("Limite de transferêcia excedido!");
 		}
+	}
+
+	public void sacarDepositar(double valor) {
+		saldo -= valor;
+		movimentacoes.add(new Movimentacao(LocalDate.now(), Tipo.DEBITTO, valor));
 	}
 
 	public Cliente getCliente() {
@@ -66,38 +110,45 @@ public class Conta {
 		this.numero = numero;
 	}
 
-	public ModalidadeCliente getModalidadeCliente() {
-		if (cliente.getRendaMensal() <= 5000) {
-			return modalidadeCliente.BASICO;
-		}
-		if (cliente.getRendaMensal() > 5000 && cliente.getRendaMensal() <= 12000) {
-			return modalidadeCliente.INTERMEDIARIO;
-		}
-		if (cliente.getRendaMensal() > 12000) {
-			return modalidadeCliente.PREMIUM;
-		}
-		return null;
+	public Tipo getTipo() {
+		return tipo;
 	}
 
-	public void setModalidadeCliente(ModalidadeCliente modalidadeCliente) {
-		this.modalidadeCliente = modalidadeCliente;
+	public int getQtdSaque() {
+		return qtdSaque;
+	}
+
+	public void setQtdSaque(int qtdSaque) {
+		this.qtdSaque = qtdSaque;
+	}
+
+	public int getQtdTransferencia() {
+		return qtdTransferencia;
+	}
+
+	public void setQtdTransferencia(int qtdTransferencia) {
+		this.qtdTransferencia = qtdTransferencia;
 	}
 
 	public void imprimirExtrato(String nomeConta) {
 		System.out.println(String.format("**** Extrato %s ****", nomeConta));
 		System.out.println(String.format("CLIENTE: %s ¬ CPF: %s", cliente.getNome(), cliente.getCpf()));
-		System.out.println(String.format("MODALIDADE DO CLIENTE: %s", getModalidadeCliente()));
+		System.out.println(String.format("MODALIDADE DO CLIENTE: %s", cliente.getModalidadeCliente()));
 		System.out.println(String.format("AGENCIA: %d ¬ CONTA: %s%n", AGENCIA, numero));
-		System.out.println("|DATA   HORA   |TIPO     |VALOR");
+		System.out.println("|DATA       |TIPO    |VALOR");
 
 		for (Movimentacao movimentacao : movimentacoes) {
-
-			System.out.println(String.format("|%s |%s  |R$%.2f", movimentacao.getDataAtual(), movimentacao.getTipo(),
+			System.out.println(String.format("|%s |%s |R$%.2f", movimentacao.getData(), movimentacao.getTipo(),
 					movimentacao.getValor()));
-
 		}
 
 		System.out.println(String.format("%nSALDO DISPONÍVEL: R$%.2f%n", this.saldo));
+
+		for (String msg : logs) {
+			System.err.println(msg);
+		}
+		
+		System.out.println();
 
 	}
 

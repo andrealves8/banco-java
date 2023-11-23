@@ -1,4 +1,6 @@
 package app;
+import java.time.LocalDate;
+
 import classes.Cliente;
 import classes.ContaCorrente;
 import classes.ContaPoupanca;
@@ -8,19 +10,19 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Cliente c1 = new Cliente("ANDRÉ ALVES", "1111", Genero.HOMEM, "11/04/1987", 5000);
-		Cliente c2 = new Cliente("WILLYAN CAETANO", "2222", Genero.HOMEM, "01/01/1990", 20000);
+		Cliente cliente1 = new Cliente("mario", "1111", Genero.HOMEM, LocalDate.of(1987, 4, 11), 5000);
+		Cliente cliente2 = new Cliente("JOÃO", "2222", Genero.HOMEM, LocalDate.of(2010, 1, 1), 12000);
+		Cliente cliente3 = new Cliente("MARIA", "3333", Genero.MULHER, LocalDate.of(2000, 1, 1), 20000);
 		
-		ContaCorrente cc = new ContaCorrente(c1);
-		ContaPoupanca cp = new ContaPoupanca(c2);
+		ContaPoupanca andre = new ContaPoupanca(cliente1);
+		ContaCorrente joao = new ContaCorrente(cliente2);
+		ContaCorrente maria = new ContaCorrente(cliente3);
 		
-		cc.depositar(100);
-		cc.depositar(500);
-		cc.sacar(200);
-		cc.transferir(300, cp);
+		andre.depositar(1000);
 
-		cc.imprimirExtrato();
-		cp.imprimirExtrato();
+		andre.imprimirExtrato();
+		//joao.imprimirExtrato();
+		//maria.imprimirExtrato();
 
 
 	}
