@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Conta {
 	private static final int AGENCIA = 332;
-	private String numero = new GeradorDeContas().numeroGerado;
+	private String numero = new GeradorDeContas().gerarConta();
 	private double saldo;
 	private Cliente cliente;
 	private Tipo tipo;
 	private int qtdSaque = 0;
 	private int qtdTransferencia = 0;
-	private List<String> logs = new ArrayList<>();
+	public List<String> logs = new ArrayList<>();
 
 	LocalDate localDate = LocalDate.now();
 	DateTimeFormatter dataFormatada = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -30,29 +30,27 @@ public class Conta {
 			saldo += valor;
 			movimentacoes.add(new Movimentacao(LocalDate.now(), Tipo.CREDITO, valor));
 		}
-
 	}
 
-	public void sacar(double valor) {
+	public void sacar(double valor) throws ValorNegativoException {
 		cliente.validarLimiteMaxMovimentacao();
 
 		if (qtdSaque < cliente.getLimiteMaxSaque()) {
 
-			if (valor >= 10) {
+			if (valor < 1)
+				throw new ValorNegativoException("Saque de " + valor + " negado!");
 
-				if (saldo > valor) {
-					saldo -= valor;
-					movimentacoes.add(new Movimentacao(LocalDate.now(), Tipo.DEBITTO, valor));
-					qtdSaque++;
-					logs.add("Saque " + (qtdSaque) + " realizado com sucesso!");
-
-				} else {
-					logs.add("Saldo insuficiente!");
-				}
+			if (saldo > valor) {
+				saldo -= valor;
+				movimentacoes.add(new Movimentacao(LocalDate.now(), Tipo.DEBITTO, valor));
+				qtdSaque++;
+				logs.add("Saque " + (qtdSaque) + " realizado com sucesso!");
 
 			} else {
-				logs.add("Valor menor que o permitidio!");
+				logs.add("Saldo insuficiente!");
 			}
+
+			// else { logs.add("Valor menor que o permitidio!"); }
 
 		} else {
 			logs.add("Limite de saque excedido!");
@@ -147,7 +145,7 @@ public class Conta {
 		for (String msg : logs) {
 			System.err.println(msg);
 		}
-		
+
 		System.out.println();
 
 	}

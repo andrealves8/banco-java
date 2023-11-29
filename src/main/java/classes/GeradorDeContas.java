@@ -1,15 +1,8 @@
 package classes;
 
-
 import java.util.Random;
 
 public class GeradorDeContas {
-
-	public String numeroGerado = gerarConta();
-
-	public String getNumeroGerado() {
-		return numeroGerado;
-	}
 
 	public String gerarConta() {
 
@@ -21,7 +14,5 @@ public class GeradorDeContas {
 		return p1 + "-" + p2;
 
 	}
-	
-	
 
 }
